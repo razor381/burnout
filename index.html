@@ -14,7 +14,39 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
-  <canvas></canvas>
+
+  <!-- Welcome card -->
+  <article id="start-card" class="card center-card">
+    <h2 class="card-header">Burnout</h2>
+    <div class="card-contents">
+      <p>Press 'left' and 'right' arrows to change lanes</p>
+      <p>Press 'spacebar' to shoot ammo</p>
+      <button id="start-btn" class="btn card-btn">Start Game</button>
+    </div>
+  </article>
+
+  <!-- Score card -->
+  <article id="score-card" class="card score-card hidden">
+    <h2 class="card-header">Score</h2>
+    <div class="card-contents">
+      <p class="player-score">Score: 5000</p>
+      <p class="best-score">Best score: 40000</p>
+      <button class="btn card-btn">Pause/Play</button>
+    </div>
+  </article>
+
+  <!-- Ending card -->
+  <article id="end-card" class="card center-card hidden">
+    <h2 class="card-header">Game Over</h2>
+    <div class="card-contents">
+      <p class="player-score">Your Score: 5000</p>
+      <p class="best-score">Best score: 40000</p>
+      <button id="restart-btn" class="btn card-btn">Restart Game</button>
+    </div>
+  </article>
+
+  <div id="road-area">
+  </div>
 
   <script src="assets/js/script.js"></script>
 </body>
