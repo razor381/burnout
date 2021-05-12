@@ -1,0 +1,20 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+}
+
+body {
+  padding: 0;
+  overflow: hidden;
+  height: inherit;
+  font-family: 'Roboto slab';
+  background-color: #28344e;
+}
+
+button {
+  border-style: none;
+  background-color: none;
+}
