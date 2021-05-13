@@ -1,0 +1,115 @@
+body {
+  position: relative;
+}
+
+.hidden {
+  display: none;
+}
+
+.btn {
+  background-color: #384664;
+  border-radius: 4px;
+  color: #e4e4e4;
+  padding: 0.5rem 1rem;
+  text-transform: uppercase;
+  display: inline;
+  cursor: pointer;
+  box-shadow: 2px 4px 6px -1px rgba(0, 0, 0, 0.4);
+}
+
+.btn:hover {
+  background-color: #4b5a7a;
+}
+
+.btn:active {
+  color: #384664;
+  background-color: white;
+}
+
+.card {
+  margin: 3rem;
+  background-color: white;
+  border-radius: 6px;
+  overflow: hidden;
+  --tw-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  position: absolute;
+  z-index: 30;
+}
+
+.card-header {
+  background-color: #28344e;
+  color: white;
+  font-weight: bold;
+  padding: 1rem;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.card-contents {
+  margin: 1rem 0;
+  padding: 1rem 5rem;
+}
+
+.welcome-card-contents {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
+}
+
+.welcome-card__left-content {
+  margin: 1rem 0;
+  padding: 1rem 5rem;
+  min-width: 30rem;
+}
+
+.card-contents p {
+  color: #4b4b4b;
+  margin-bottom: 1rem;
+}
+
+.cover-img {
+  max-height: 40rem;
+}
+
+.card-btn {
+  margin-top: 1rem;
+}
+
+.center-card {
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.new-best {
+  font-weight: bold;
+  font-size: 2em;
+  text-transform: uppercase;
+}
+
+.score {
+  font-size: 1.5em;
+  font-weight: 'bold';
+}
+
+#road-area {
+  margin: 0 auto;
+  background-color: #1e272e;
+  position: relative;
+}
+
+.road-line {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  background-color: white;
+  width: 1rem;
+  height: 8rem;
+}
+
+.absolute {
+  position: absolute;
+}
