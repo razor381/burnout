@@ -49,8 +49,6 @@ const newBestEl = getEl('.new-best');
 const passScoreEl = getEl('.pass-score');
 const finalPassScoreEl = getEl('.final-pass-score');
 
-console.log('final el: ', finalPassScoreEl);
-
 
 // tag names and classes
 
