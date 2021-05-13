@@ -17,15 +17,17 @@
 
   <!-- Welcome card -->
   <article id="start-card" class="card center-card">
-    <h2 class="card-header">Burnout</h2>
-    <div class="card-contents">
-      <p>Press 'left' and 'right' arrows to change lanes</p>
-      <button id="start-btn" class="btn card-btn">Start Game</button>
+    <div class="card-contents welcome-card-contents">
+      <div class="welcome-card__left-content">
+        <p>Press 'left' and 'right' arrows to change lanes</p>
+        <button id="start-btn" class="btn card-btn">Start Game</button>
+      </div>
+      <img class="cover-img" src="assets/img/burnout.jpg" alt="burnout game cover image">
     </div>
   </article>
 
   <!-- Score card -->
-  <article id="score-card" class="card score-card">
+  <article id="score-card" class="card score-card hidden">
     <h2 class="card-header">Score</h2>
     <div class="card-contents">
       <p>Score:&nbsp;&nbsp;<span class="score current-score"></p>

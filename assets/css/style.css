@@ -31,7 +31,6 @@ body {
   background-color: white;
   border-radius: 6px;
   overflow: hidden;
-  text-align: center;
   --tw-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
   position: absolute;
@@ -52,9 +51,27 @@ body {
   padding: 1rem 5rem;
 }
 
-.card-contents > p {
+.welcome-card-contents {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
+}
+
+.welcome-card__left-content {
+  margin: 1rem 0;
+  padding: 1rem 5rem;
+  min-width: 30rem;
+}
+
+.card-contents p {
   color: #4b4b4b;
   margin-bottom: 1rem;
+}
+
+.cover-img {
+  max-height: 40rem;
 }
 
 .card-btn {
@@ -95,10 +112,4 @@ body {
 
 .vehicle {
   position: absolute;
-}
-
-.player-vehicle {
-}
-
-.enemy-vehicle {
 }

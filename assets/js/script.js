@@ -1,9 +1,6 @@
 const PLAYER_SPEED = 10;
-const PLAYER_COLOR = 'blue';
-
 const ENEMY_SPEED = 10;
 const ENEMY_QTY = 3;
-const ENEMY_COLOR = 'red';
 
 const VEHICLE_WIDTH = 130;
 const VEHICLE_HEIGHT = 160;
@@ -11,6 +8,7 @@ const MIN_ENEMY_CLEARANCE = VEHICLE_HEIGHT * 3;
 
 const ROAD_LINE_WIDTH = 10;
 const ROAD_LINE_COLOR = 'rgba(255, 255, 255, 0.7)';
+const TRANSPARENT_COLOR = 'rgba(0, 0, 0, 0)';
 const ROAD_LINES_QTY = 5;
 const LANES_QTY = 3;
 
@@ -23,6 +21,9 @@ const ARROW_UP = 'ArrowUp'  ;
 const ARROW_DOWN = 'ArrowDown';
 
 const BEST_SCORE_KEY = '@BEST_SCORE';
+
+const PLAYER_IMG = '../assets/img/player.png';
+const ENEMY_IMG = '../assets/img/enemy.png';
 
 
 // DOM ELEMENTS
@@ -45,9 +46,8 @@ const newBestEl = getEl('.new-best');
 // tag names and classes
 
 const DIV_TAG = 'div';
+const IMG_TAG = 'img';
 const CLASS_VEHICLE = 'vehicle';
-const CLASS_PLAYER_VEHICLE = 'player-vehicle';
-const CLASS_ENEMY_VEHICLE = 'enemy-vehicle';
 const CLASS_ROAD_LINE = 'road-line';
 const CLASS_HIDDEN = 'hidden';
 
@@ -63,7 +63,7 @@ class BaseObject {
     this.height = height;
     this.dx = dx;
     this.dy = dy;
-    this.color = color;
+    this.color = color || TRANSPARENT_COLOR;
     this.el = el;
     this.isRandomReset = isRandomReset;
 
@@ -118,14 +118,12 @@ class RoadLine extends BaseObject {
 
 
 class Vehicle extends BaseObject {
-  constructor(y, dy, color, lane, isEnemy, isRandomReset) {
+  constructor(y, dy, lane, isEnemy, isRandomReset, el) {
     const x = convertLaneToPixel(lane);
-    const el = createNewElement(
-      DIV_TAG,
-      [CLASS_VEHICLE, isEnemy ? CLASS_PLAYER_VEHICLE : CLASS_PLAYER_VEHICLE],
-    );
 
-    super(x, y, VEHICLE_WIDTH, VEHICLE_HEIGHT, 0, dy, color, el, isRandomReset);
+    el.classList.add(CLASS_VEHICLE);
+
+    super(x, y, VEHICLE_WIDTH, VEHICLE_HEIGHT, 0, dy, null, el, isRandomReset);
     this.lane = lane;
   }
 
@@ -142,14 +140,13 @@ class Player extends Vehicle {
     super(
       MAX_HEIGHT - VEHICLE_HEIGHT,
       0, // player does not move vertically
-      PLAYER_COLOR,
       0, //player starts at left-most lane
       false,
       false,
+      playerImg,
     );
 
     this.distanceTravelled = 0;
-
     this.addMovementListeners();
   }
 
@@ -185,17 +182,18 @@ class Player extends Vehicle {
 
 
 class Enemy extends Vehicle {
-  constructor(lane) {
+  constructor(lane, image) {
     super(
       -getRandomInteger(VEHICLE_HEIGHT, MAX_HEIGHT) - lane * MAX_HEIGHT,
       ENEMY_SPEED,
-      ENEMY_COLOR,
       lane,
       true,
       true,
+      image,
     );
   }
 }
+
 
 class Game {
   constructor() {
@@ -229,7 +227,6 @@ class Game {
     this.prevBestScore = this.player.distanceTravelled;
     newBestEl.classList.remove(CLASS_HIDDEN);
     this.updateBestScoreElements();
-
   }
 
   animateMotion() {
@@ -264,6 +261,15 @@ class Game {
 
 // ------------------------- functions ---------------------------
 
+
+function loadImage(src) {
+  return new Promise(resolve => {
+    let img = new Image();
+    img.onload = (() => resolve(img));
+    img.src = src;
+  });
+}
+
 function resetScreen() {
   startCard.classList.add(CLASS_HIDDEN);
   endCard.classList.add(CLASS_HIDDEN);
@@ -283,7 +289,7 @@ function renderElementIntoDom(el, parentEl) {
   parentEl.appendChild(el);
 }
 
-function createNewElement(tag, classes) {
+function createNewElement(tag, classes, attributes=[]) {
   const newEl = document.createElement('div');
   newEl.classList.add(...classes);
   return newEl;
@@ -305,7 +311,7 @@ function generateEnemies() {
   let enemies = [];
 
   for (let i = 0; i < ENEMY_QTY; i++) {
-    enemies.push(new Enemy(i % LANES_QTY));
+    enemies.push(new Enemy(i % LANES_QTY, enemyImgs[i]));
   }
 
   return enemies;
@@ -326,10 +332,24 @@ function generateRoadLines() {
   return roadLines;
 }
 
+async function loadEnemyImages() {
+  const enemyImgs = [];
+
+  for (let i = 0; i < ENEMY_QTY; i++) {
+    enemyImgs.push(loadImage(ENEMY_IMG));
+  }
+
+  return Promise.all(enemyImgs);
+}
+
 function checkBelowScreen(obj) {
   if (obj.y > MAX_HEIGHT) {
     obj.restartToTop();
   }
+}
+
+function init() {
+  const game = new Game();
 }
 
 
@@ -339,17 +359,21 @@ function checkBelowScreen(obj) {
 roadArea.style.width = addPx(MAX_WIDTH);
 roadArea.style.height = addPx(MAX_HEIGHT);
 
-function init() {
-  const game = new Game();
-}
+let playerImg, enemyImgs;
 
-startBtn.addEventListener('click', () => {
-  init();
-});
+(async function () {
+  playerImg = await loadImage(PLAYER_IMG);
+  enemyImgs = await loadEnemyImages();
 
-restartBtn.addEventListener('click', () => {
-  init();
-})
+  startBtn.addEventListener('click', () => {
+    scoreCard.classList.remove(CLASS_HIDDEN);
+    init();
+  });
+
+  restartBtn.addEventListener('click', () => {
+    init();
+  })
+})();
 
 
 
