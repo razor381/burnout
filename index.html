@@ -20,18 +20,16 @@
     <h2 class="card-header">Burnout</h2>
     <div class="card-contents">
       <p>Press 'left' and 'right' arrows to change lanes</p>
-      <p>Press 'spacebar' to shoot ammo</p>
       <button id="start-btn" class="btn card-btn">Start Game</button>
     </div>
   </article>
 
   <!-- Score card -->
-  <article id="score-card" class="card score-card hidden">
+  <article id="score-card" class="card score-card">
     <h2 class="card-header">Score</h2>
     <div class="card-contents">
-      <p class="player-score">Score: 5000</p>
-      <p class="best-score">Best score: 40000</p>
-      <button class="btn card-btn">Pause/Play</button>
+      <p>Score:&nbsp;&nbsp;<span class="score current-score"></p>
+      <p>Best score:&nbsp;&nbsp;<span class="score best-score"></p>
     </div>
   </article>
 
@@ -39,8 +37,8 @@
   <article id="end-card" class="card center-card hidden">
     <h2 class="card-header">Game Over</h2>
     <div class="card-contents">
-      <p class="player-score">Your Score: 5000</p>
-      <p class="best-score">Best score: 40000</p>
+      <p>Score:&nbsp;&nbsp;<span class="score final-score"></p>
+      <p>Best score:&nbsp;&nbsp;<span class="score best-score"></p>
       <button id="restart-btn" class="btn card-btn">Restart Game</button>
     </div>
   </article>

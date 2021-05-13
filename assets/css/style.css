@@ -67,8 +67,9 @@ body {
   transform: translate(-50%, -50%);
 }
 
-.player-score {
-  font-size: 2em;
+.score {
+  font-size: 1.5em;
+  font-weight: 'bold';
 }
 
 #road-area {

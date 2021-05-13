@@ -22,6 +22,9 @@ const ARROW_RIGHT = 'ArrowRight';
 const ARROW_UP = 'ArrowUp'  ;
 const ARROW_DOWN = 'ArrowDown';
 
+
+// DOM ELEMENTS
+
 const roadArea = getEl('#road-area');
 
 const startCard = getEl('#start-card');
@@ -31,7 +34,13 @@ const scoreCard = getEl('#score-card');
 const startBtn = getEl('#start-btn');
 const restartBtn = getEl('#restart-btn');
 
-// DOM element tags and classes
+const currentScoreEl = getEl('.current-score');
+const finalScoreEl = getEl('.final-score');
+const bestScoreEls = getEl('.best-score', true);
+
+
+// tag names and classes
+
 const DIV_TAG = 'div';
 const CLASS_VEHICLE = 'vehicle';
 const CLASS_PLAYER_VEHICLE = 'player-vehicle';
@@ -136,7 +145,6 @@ class Player extends Vehicle {
       false,
     );
 
-    this.score = 0;
     this.distanceTravelled = 0;
 
     this.addMovementListeners();
@@ -167,11 +175,8 @@ class Player extends Vehicle {
   }
 
   updateDistanceTravelled() {
-
-  }
-
-  updateScore() {
-
+    this.distanceTravelled += PLAYER_SPEED;
+    currentScoreEl.innerText = this.distanceTravelled;
   }
 }
 
@@ -189,6 +194,50 @@ class Enemy extends Vehicle {
   }
 }
 
+class Game {
+  constructor() {
+    startCard.classList.add('hidden');
+
+    this.roadLines = generateRoadLines();
+    this.player = new Player();
+    this.enemies = generateEnemies();
+
+    this.animateMotion();
+  }
+
+  handleGameOver() {
+    finalScoreEl.innerText = this.player.distanceTravelled;
+    endCard.classList.remove('hidden');
+  }
+
+  animateMotion() {
+    (function animate() {
+      this.player.updateDistanceTravelled();
+
+      [...this.enemies, ...this.roadLines].forEach((obj) => {
+        obj.moveY();
+        checkBelowScreen(obj);
+      });
+
+      this.isCollisionFree() ? requestAnimationFrame(animate.bind(this)) : this.handleGameOver();
+    }.bind(this))();
+  }
+
+  isCollisionFree() {
+    /**
+     *
+     * @TODO find cleaner alternative
+     *
+     * */
+    return this.enemies.some((enemy) => {
+      return (enemy.lane === this.player.lane) &&
+      ((this.player.y > enemy.y) && (enemy.height < (this.player.y - enemy.y))) ||
+        ((this.player.y < enemy.y) && (this.player.height < (enemy.y - this.player.y)));
+    });
+  }
+
+
+}
 
 
 // ------------------------- functions ---------------------------
@@ -211,8 +260,8 @@ function createNewElement(tag, classes) {
   return newEl;
 }
 
-function getEl(name) {
-  return document.querySelector(name);
+function getEl(name, all=false) {
+  return all?  document.querySelectorAll(name) : document.querySelector(name);
 }
 
 function getRandomInteger(min, max) {
@@ -254,48 +303,28 @@ function checkBelowScreen(obj) {
   }
 }
 
-function isCollisionFree(player, enemies) {
-  /**
-   *
-   * @TODO find cleaner alternative
-   *
-   * */
-  return enemies.some((enemy) => {
-    return (enemy.lane === player.lane) &&
-    ((player.y > enemy.y) && (enemy.height < (player.y - enemy.y))) ||
-      ((player.y < enemy.y) && (player.height < (enemy.y - player.y)));
-  });
-}
-
-function animateMotion(player, enemies, roadLines) {
-  (function animate() {
-    [...enemies, ...roadLines].forEach((obj) => {
-      obj.moveY();
-      checkBelowScreen(obj);
-    });
-
-    isCollisionFree(player, enemies) && requestAnimationFrame(animate);
-  })();
-}
 
 // --------------------- logic --------------------------------
 
 
-roadArea.style.width = MAX_WIDTH + 'px';
-roadArea.style.height = MAX_HEIGHT + 'px';
+roadArea.style.width = addPx(MAX_WIDTH);
+roadArea.style.height = addPx(MAX_HEIGHT);
 
-function game() {
-  startCard.classList.add('hidden');
-  const roadLines = generateRoadLines();
-  const player = new Player();
-  const enemies = generateEnemies();
+const prevBest = 9999;
+bestScoreEls.forEach((el) => el.innerText = prevBest);
 
-  animateMotion(player, enemies, roadLines);
+
+function init() {
+  const game = new Game();
 }
 
 startBtn.addEventListener('click', () => {
-  game();
+  init();
 });
+
+restartBtn.addEventListener('click', () => {
+  init();
+})
 
 
 
