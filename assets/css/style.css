@@ -63,8 +63,14 @@ body {
 
 .center-card {
   top: 40%;
-  left: 45%;
+  left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.new-best {
+  font-weight: bold;
+  font-size: 2em;
+  text-transform: uppercase;
 }
 
 .score {

@@ -22,6 +22,8 @@ const ARROW_RIGHT = 'ArrowRight';
 const ARROW_UP = 'ArrowUp'  ;
 const ARROW_DOWN = 'ArrowDown';
 
+const BEST_SCORE_KEY = '@BEST_SCORE';
+
 
 // DOM ELEMENTS
 
@@ -37,6 +39,7 @@ const restartBtn = getEl('#restart-btn');
 const currentScoreEl = getEl('.current-score');
 const finalScoreEl = getEl('.final-score');
 const bestScoreEls = getEl('.best-score', true);
+const newBestEl = getEl('.new-best');
 
 
 // tag names and classes
@@ -196,18 +199,37 @@ class Enemy extends Vehicle {
 
 class Game {
   constructor() {
-    startCard.classList.add('hidden');
-
+    this.initialize();
     this.roadLines = generateRoadLines();
     this.player = new Player();
     this.enemies = generateEnemies();
-
     this.animateMotion();
+  }
+
+  initialize() {
+    this.prevBestScore = localStorage.getItem(BEST_SCORE_KEY) || 0;
+    this.updateBestScoreElements();
+    resetScreen();
+  }
+
+  updateBestScoreElements() {
+    bestScoreEls.forEach((el) => el.innerText = this.prevBestScore);
   }
 
   handleGameOver() {
     finalScoreEl.innerText = this.player.distanceTravelled;
-    endCard.classList.remove('hidden');
+    this.updateBestScore()
+    endCard.classList.remove(CLASS_HIDDEN);
+  }
+
+  updateBestScore() {
+    if (this.player.distanceTravelled <= this.prevBestScore) return;
+
+    localStorage.setItem(BEST_SCORE_KEY, this.player.distanceTravelled);
+    this.prevBestScore = this.player.distanceTravelled;
+    newBestEl.classList.remove(CLASS_HIDDEN);
+    this.updateBestScoreElements();
+
   }
 
   animateMotion() {
@@ -241,6 +263,13 @@ class Game {
 
 
 // ------------------------- functions ---------------------------
+
+function resetScreen() {
+  startCard.classList.add(CLASS_HIDDEN);
+  endCard.classList.add(CLASS_HIDDEN);
+  newBestEl.classList.add(CLASS_HIDDEN);
+  roadArea.textContent = '';
+}
 
 function convertLaneToPixel(lane) {
   return lane * (MAX_WIDTH / 3);
@@ -309,10 +338,6 @@ function checkBelowScreen(obj) {
 
 roadArea.style.width = addPx(MAX_WIDTH);
 roadArea.style.height = addPx(MAX_HEIGHT);
-
-const prevBest = 9999;
-bestScoreEls.forEach((el) => el.innerText = prevBest);
-
 
 function init() {
   const game = new Game();
