@@ -17,18 +17,23 @@
 
   <!-- Welcome card -->
   <article id="start-card" class="card center-card">
-    <h2 class="card-header">Burnout</h2>
-    <div class="card-contents">
-      <p>Press 'left' and 'right' arrows to change lanes</p>
-      <button id="start-btn" class="btn card-btn">Start Game</button>
+    <div class="card-contents welcome-card-contents">
+      <div class="welcome-card__left-content">
+        <p>Press <strong>LEFT</strong> and <strong>RIGHT</strong> arrows to change lanes</p>
+        <p>Press <strong>UP</strong> arrow to shoot</p>
+        <p>Speed gradually <strong>INCREASES</strong> as you progress</p>
+        <button id="start-btn" class="btn card-btn">Start Game</button>
+      </div>
+      <img class="cover-img" src="assets/img/burnout.jpg" alt="burnout game cover image">
     </div>
   </article>
 
   <!-- Score card -->
-  <article id="score-card" class="card score-card">
+  <article id="score-card" class="card score-card hidden">
     <h2 class="card-header">Score</h2>
     <div class="card-contents">
       <p>Score:&nbsp;&nbsp;<span class="score current-score"></p>
+      <p>Passes:&nbsp;&nbsp;<span class="score pass-score"></p>
       <p>Best score:&nbsp;&nbsp;<span class="score best-score"></p>
     </div>
   </article>
@@ -39,6 +44,7 @@
     <div class="card-contents">
       <p class="new-best hidden">New highest score!</p>
       <p>Score:&nbsp;&nbsp;<span class="score final-score"></p>
+      <p>Passes:&nbsp;&nbsp;<span class="score final-pass-score"></p>
       <p>Best score:&nbsp;&nbsp;<span class="score best-score"></p>
       <button id="restart-btn" class="btn card-btn">Restart Game</button>
     </div>
